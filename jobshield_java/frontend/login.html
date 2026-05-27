@@ -121,6 +121,9 @@
 
     <script>
 
+        // ⚙️ BACKEND URL — deploy ke baad apni Render URL daalo
+        const API_BASE = "http://127.0.0.1:5000";
+
         // 🔐 PAGE LOAD CHECK
         window.onload = function () {
 
@@ -175,7 +178,7 @@
             btn.innerText = "Logging in...";
 
             // 🌐 BACKEND LOGIN
-            fetch("http://127.0.0.1:5000/login", {
+            fetch(API_BASE + "/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

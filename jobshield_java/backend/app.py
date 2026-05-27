@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -7,6 +8,12 @@ from urllib.parse import urlparse
 
 app = Flask(__name__)
 CORS(app)
+
+
+# Health check route (deploy par "live" hai ya nahi check karne ke liye)
+@app.route("/")
+def home():
+    return jsonify({"status": "JobShield API is running"})
 
 # Store reports
 reports = []
@@ -33,19 +40,6 @@ def login():
 @app.route("/analyze", methods=["POST"])
 
 def analyze():
-    data = request.json
-    url = data.get("url")   # ✅ yahan define hua
-
-    # 🔥 TEST CODE
-    return jsonify({
-        "title": "TESTING",
-        "url": url,
-        "domain": "test",
-        "risk": "LOW",
-        "trust_score": 0,
-        "date": datetime.now().strftime("%d %B %Y")
-    })
-
     data = request.json
     url = data.get("url")
 
@@ -137,4 +131,6 @@ def get_reports():
 # ---------------- RUN APP ----------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Render/host PORT environment variable deta hai; local par 5000 use hoga
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

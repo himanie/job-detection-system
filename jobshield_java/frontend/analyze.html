@@ -11,6 +11,10 @@
 </head>
 <script>
 
+    /* BACKEND URL — deploy ke baad isko apni Render URL se badal do
+       Example: const API_BASE = "https://jobshield-api.onrender.com"; */
+    const API_BASE = "http://127.0.0.1:5000";
+
     /* TAB SWITCHING */
 
     function switchTab(tabId, event) {
@@ -52,7 +56,7 @@
 
         try {
 
-            let response = await fetch("http://127.0.0.1:5000/analyze", {
+            let response = await fetch(API_BASE + "/analyze", {
 
                 method: "POST",
 
@@ -109,7 +113,7 @@
 
             /* SAVE REPORT */
 
-            await fetch("http://127.0.0.1:5000/save-report", {
+            await fetch(API_BASE + "/save-report", {
 
                 method: "POST",
 
@@ -163,7 +167,7 @@
 
         /* SAVE MANUAL REPORT */
 
-        await fetch("http://127.0.0.1:5000/save-report", {
+        await fetch(API_BASE + "/save-report", {
 
             method: "POST",
 

@@ -119,9 +119,12 @@
     </div>
     <script>
 
+        // ⚙️ BACKEND URL — deploy ke baad apni Render URL daalo
+        const API_BASE = "http://127.0.0.1:5000";
+
         async function loadReports() {
 
-            const response = await fetch("http://127.0.0.1:5000/get-reports");
+            const response = await fetch(API_BASE + "/get-reports");
 
             const data = await response.json();
 
