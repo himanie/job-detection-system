@@ -1,0 +1,329 @@
+/* ========================================
+   Analyze Page Styles
+   ======================================== */
+
+.analyze-section {
+    padding: 3rem 0;
+    min-height: calc(100vh - 200px);
+    background: linear-gradient(135deg, var(--darker-bg) 0%, rgba(99, 102, 241, 0.05) 100%);
+}
+
+.analyze-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+/* ========================================
+   Analyze Grid Layout
+   ======================================== */
+
+.analyze-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.form-section,
+.results-section {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   Tabs
+   ======================================== */
+
+.tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    position: relative;
+    bottom: -1px;
+}
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ========================================
+   Form Styles
+   ======================================== */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.required {
+    color: var(--danger-color);
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* ========================================
+   Results Section
+   ======================================== */
+
+.results-placeholder {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+}
+
+.results-placeholder i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    opacity: 0.5;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.results-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.result-card {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.result-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+}
+
+.result-card h3 {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ========================================
+   Trust Score Display
+   ======================================== */
+
+.trust-score-card {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.score-display {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+}
+
+/* ========================================
+   Risk Level Badge
+   ======================================== */
+
+.risk-badge {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.risk-low {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+}
+
+.risk-medium {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning-color);
+    border: 1px solid var(--warning-color);
+}
+
+.risk-high {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+    border: 1px solid #f97316;
+}
+
+.risk-critical {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+/* ========================================
+   Flags List
+   ======================================== */
+
+.flags-list {
+    list-style: none;
+    padding: 0;
+}
+
+.flags-list li {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.red-flags-card .flags-list li::before {
+    content: "⚠️";
+    font-size: 1.2rem;
+}
+
+.trust-indicators-card .flags-list li::before {
+    content: "✓";
+    color: var(--success-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* ========================================
+   Loading Spinner
+   ======================================== */
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(99, 102, 241, 0.3);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner p {
+    margin-top: 1rem;
+    color: var(--text-primary);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .analyze-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .analyze-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+
+    .tab-btn.active {
+        border-bottom: none;
+        border-left-color: var(--primary-color);
+    }
+}
+
+@media (max-width: 480px) {
+    .score-circle {
+        width: 120px;
+        height: 120px;
+        font-size: 2rem;
+    }
+}

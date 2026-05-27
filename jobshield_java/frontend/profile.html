@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JobShield Profile</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #020d2b, #040a23, #000c2f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8c6cff;
+        }
+
+        /* Profile Box */
+
+        .profile-box {
+
+            width: 350px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+
+        }
+
+        .profile-box h2 {
+            margin-bottom: 20px;
+        }
+
+        /* Inputs */
+
+        input {
+
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 6px;
+            background: #0c153d;
+            color: white;
+
+        }
+
+        input:disabled {
+            opacity: 0.7;
+        }
+
+        input::placeholder {
+            color: #aaa;
+        }
+
+        /* Buttons */
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        button {
+
+            width: 48%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #6b7cff, #b86bff);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Message */
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">🛡 JobShield</div>
+    </div>
+
+    <div class="profile-box">
+
+        <h2>User Profile</h2>
+
+        <input type="text" id="name" disabled>
+        <input type="email" id="email" disabled>
+
+        <input type="text" value="User" disabled>
+
+        <div class="btn-group">
+            <button onclick="editProfile()">Edit</button>
+            <button onclick="saveProfile()">Save</button>
+        </div>
+        <div class="btn-group">
+            <button onclick="logout()" style="
+        width:100%;
+        background:linear-gradient(90deg,#ff4b4b,#ff6b6b);
+    ">
+                Logout
+            </button>
+        </div>
+
+        <div class="message" id="message"></div>
+
+    </div>
+
+    <script>
+
+        let status = localStorage.getItem("authStatus");
+
+        if (status !== "logged") {
+            window.location.href = "login.html";
+        }
+
+        // 👤 LOAD USER DATA
+        window.onload = function () {
+
+            let name = localStorage.getItem("userName");
+            let email = localStorage.getItem("userEmail");
+
+            document.getElementById("name").value = name || "User";
+            document.getElementById("email").value = email || "No Email";
+        }
+
+
+        function editProfile() {
+
+            document.getElementById("name").disabled = false
+            document.getElementById("email").disabled = false
+
+        }
+
+        function saveProfile() {
+
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userEmail", email);
+
+            document.getElementById("name").disabled = true;
+            document.getElementById("email").disabled = true;
+
+            let message = document.getElementById("message");
+
+            message.style.color = "#00ff9d";
+            message.innerText = "Profile Updated Successfully";
+        }
+
+
+        function logout() {
+
+            localStorage.removeItem("authStatus");
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userEmail");
+
+            sessionStorage.clear(); // optional
+
+            localStorage.setItem("logoutMsg", "Logged out successfully!");
+
+            // history back block (optional security)
+            window.location.replace("home.html");
+        }
+
+    </script>
+
+</body>
+
+</html>

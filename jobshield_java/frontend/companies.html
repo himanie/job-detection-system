@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verified Companies - JobShield</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+
+        body {
+            background: #f4f6f9;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        /* Search */
+
+        .search-box {
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Table */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>JobShield</h2>
+    </div>
+
+    <div class="container">
+
+        <h2>Verified Companies</h2>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search company..." onkeyup="searchCompany()">
+        </div>
+
+        <table id="companyTable">
+
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Website</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Google</td>
+                    <td><a href="https://careers.google.com" target="_blank">careers.google.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Microsoft</td>
+                    <td><a href="https://careers.microsoft.com" target="_blank">careers.microsoft.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Amazon</td>
+                    <td><a href="https://www.amazon.jobs" target="_blank">amazon.jobs</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>TCS</td>
+                    <td><a href="https://www.tcs.com/careers" target="_blank">tcs.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Infosys</td>
+                    <td><a href="https://www.infosys.com/careers" target="_blank">infosys.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Wipro</td>
+                    <td><a href="https://careers.wipro.com" target="_blank">wipro.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Accenture</td>
+                    <td><a href="https://www.accenture.com/careers" target="_blank">accenture.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>IBM</td>
+                    <td><a href="https://www.ibm.com/careers" target="_blank">ibm.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Capgemini</td>
+                    <td><a href="https://www.capgemini.com/careers" target="_blank">capgemini.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Oracle</td>
+                    <td><a href="https://www.oracle.com/careers" target="_blank">oracle.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Flipkart</td>
+                    <td><a href="https://www.flipkartcareers.com" target="_blank">flipkart.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Paytm</td>
+                    <td><a href="https://careers.paytm.com" target="_blank">paytm.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Zomato</td>
+                    <td><a href="https://www.zomato.com/careers" target="_blank">zomato.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Swiggy</td>
+                    <td><a href="https://careers.swiggy.com" target="_blank">swiggy.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Byju's</td>
+                    <td><a href="https://careers.byjus.com" target="_blank">byjus.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Ola</td>
+                    <td><a href="https://careers.olacabs.com" target="_blank">olacabs.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Uber</td>
+                    <td><a href="https://www.uber.com/careers" target="_blank">uber.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Samsung</td>
+                    <td><a href="https://www.samsungcareers.com" target="_blank">samsung.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Sony</td>
+                    <td><a href="https://www.sonyjobs.com" target="_blank">sony.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>HP</td>
+                    <td><a href="https://jobs.hp.com" target="_blank">hp.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Dell</td>
+                    <td><a href="https://jobs.dell.com" target="_blank">dell.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Lenovo</td>
+                    <td><a href="https://jobs.lenovo.com" target="_blank">lenovo.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Siemens</td>
+                    <td><a href="https://jobs.siemens.com" target="_blank">siemens.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Goldman Sachs</td>
+                    <td><a href="https://www.goldmansachs.com/careers" target="_blank">goldmansachs.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>JP Morgan</td>
+                    <td><a href="https://careers.jpmorgan.com" target="_blank">jpmorgan.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>KPMG</td>
+                    <td><a href="https://home.kpmg/careers" target="_blank">kpmg.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>EY</td>
+                    <td><a href="https://careers.ey.com" target="_blank">ey.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>PWC</td>
+                    <td><a href="https://www.pwc.com/careers" target="_blank">pwc.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Snapchat</td>
+                    <td><a href="https://careers.snap.com" target="_blank">snap.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+                <tr>
+                    <td>Twitter (X)</td>
+                    <td><a href="https://careers.x.com" target="_blank">x.com</a></td>
+                    <td class="status">Verified</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script>
+
+        function searchCompany() {
+
+            let input = document.getElementById("searchInput");
+            let filter = input.value.toLowerCase();
+            let table = document.getElementById("companyTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+
+                let td = tr[i].getElementsByTagName("td")[0]; // ✅ company column
+
+                if (td) {
+
+                    let textValue = td.textContent || td.innerText;
+
+                    if (textValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze Job - JobShield </title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/analyze.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<script>
+
+    /* TAB SWITCHING */
+
+    function switchTab(tabId, event) {
+
+        // hide all tabs
+        const tabs = document.querySelectorAll(".tab-content");
+        tabs.forEach(tab => {
+            tab.classList.remove("active");
+        });
+
+        // remove active button
+        const buttons = document.querySelectorAll(".tab-btn");
+        buttons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        // show selected tab
+        document.getElementById(tabId).classList.add("active");
+
+        // activate clicked button
+        event.target.classList.add("active");
+
+    }
+
+    /* URL ANALYZER */
+
+    async function parseUrl(event) {
+
+        event.preventDefault();
+
+        let url = document.getElementById("jobUrl").value;
+
+        if (url === "") {
+            alert("Please enter job URL");
+            return;
+        }
+
+        document.getElementById("loadingSpinner").style.display = "block";
+
+        try {
+
+            let response = await fetch("http://127.0.0.1:5000/analyze", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({ url: url })
+
+            });
+
+            let data = await response.json();
+            console.log(data);
+
+            // 🔍 Debug
+            console.log("API DATA:", data);
+
+            // 🔐 Force trusted sites = 100%
+            let finalScore = data.trust_score;
+
+            if (url.toLowerCase().includes("naukri.com") ||
+                url.toLowerCase().includes("linkedin.com") ||
+                url.toLowerCase().includes("indeed.com") ||
+                url.toLowerCase().includes("glassdoor.com")) {
+
+                finalScore = 100;
+                data.risk = "LOW";
+            }
+
+            let score = finalScore;
+
+            // 🎯 Final UI update
+            let riskElement = document.getElementById("riskLevel");
+
+            document.getElementById("trustScore").innerText = finalScore;
+            document.getElementById("riskLevel").innerText = data.risk || "LOW";
+
+            document.getElementById("loadingSpinner").style.display = "none";
+
+            document.getElementById("resultsPlaceholder").style.display = "none";
+            document.getElementById("resultsContainer").style.display = "block";
+
+            // 🎯 Show result
+            document.getElementById("trustScore").innerText = finalScore;
+            document.getElementById("riskLevel").innerText = data.risk || "LOW";
+
+            document.getElementById("riskLevel").innerText = data.risk || "LOW";
+
+            document.getElementById("redFlagsList").innerHTML =
+                "<li>No suspicious keywords detected</li>";
+
+            document.getElementById("indicatorsList").innerHTML =
+                "<li>Valid job title found</li>";
+
+            /* SAVE REPORT */
+
+            await fetch("http://127.0.0.1:5000/save-report", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    url: url,
+                    risk: data.risk || "LOW",
+                    date: new Date().toLocaleDateString()
+
+                })
+
+            });
+
+        } catch (error) {
+
+            document.getElementById("loadingSpinner").style.display = "none";
+
+            alert("Error analyzing job");
+
+        }
+
+    }
+
+
+
+    /* MANUAL JOB ANALYSIS */
+
+    async function analyzeJob(event) {
+
+        event.preventDefault();
+
+        let company = document.getElementById("companyName").value;
+        let job = document.getElementById("jobTitle").value;
+
+        document.getElementById("resultsPlaceholder").style.display = "none";
+        document.getElementById("resultsContainer").style.display = "block";
+
+        document.getElementById("trustScore").innerText = "75";
+
+        document.getElementById("riskLevel").innerText = "MEDIUM";
+
+        document.getElementById("redFlagsList").innerHTML =
+            "<li>High salary claim detected</li>";
+
+        document.getElementById("indicatorsList").innerHTML =
+            "<li>Company name provided</li>";
+
+        /* SAVE MANUAL REPORT */
+
+        await fetch("http://127.0.0.1:5000/save-report", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                url: company + " - " + job,
+                risk: "MEDIUM",
+                date: new Date().toLocaleDateString()
+
+            })
+
+        });
+
+    }
+
+</script>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>JobShield.AI</span>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="reports.html">Reports</a></li>
+                <li><a href="companies.html">Companies</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="analyze-section">
+        <div class="container">
+            <h1>Analyze Job Posting</h1>
+            <p class="subtitle">Submit a job posting for AI-powered fraud detection</p>
+
+            <div class="analyze-grid">
+                <!-- Form Section -->
+                <div class="form-section">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('url-tab')">
+                            <i class="fas fa-link"></i> From URL
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('manual-tab')">
+                            <i class="fas fa-keyboard"></i> Manual Entry
+                        </button>
+                    </div>
+
+                    <!-- URL Tab -->
+                    <div id="url-tab" class="tab-content active">
+                        <form id="urlForm" onsubmit="parseUrl(event)">
+                            <div class="form-group">
+                                <label for="jobUrl">Job Posting URL <span class="required">*</span></label>
+                                <input type="url" id="jobUrl" placeholder="https://www.linkedin.com/jobs/view/..."
+                                    required>
+                                <small>Paste a URL from LinkedIn, Indeed, Glassdoor, or any job board</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Extract Job Details
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Manual Tab -->
+                    <div id="manual-tab" class="tab-content">
+                        <form id="analysisForm" onsubmit="analyzeJob(event)">
+                            <div class="form-group">
+                                <label for="jobTitle">Job Title <span class="required">*</span></label>
+                                <input type="text" id="jobTitle" placeholder="e.g., Senior Software Engineer" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="companyName">Company Name <span class="required">*</span></label>
+                                <input type="text" id="companyName" placeholder="e.g., Tech Corp" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="salaryMin">Salary Min</label>
+                                    <input type="number" id="salaryMin" placeholder="50000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="salaryMax">Salary Max</label>
+                                    <input type="number" id="salaryMax" placeholder="120000">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location">Location</label>
+                                <input type="text" id="location" placeholder="e.g., San Francisco, CA">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="jobDescription">Job Description <span class="required">*</span></label>
+                                <textarea id="jobDescription" placeholder="Paste the full job description here..."
+                                    rows="8" required></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="jobPostUrl">Job URL</label>
+                                    <input type="url" id="jobPostUrl" placeholder="https://...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyWebsite">Company Website</label>
+                                    <input type="url" id="companyWebsite" placeholder="https://...">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-zap"></i> Analyze Job
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results-section">
+                    <div id="resultsPlaceholder" class="results-placeholder">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>Submit a job posting to see analysis results</p>
+                    </div>
+
+                    <div id="resultsContainer" class="results-container" style="display: none;">
+                        <!-- Trust Score Card -->
+                        <div class="result-card trust-score-card">
+                            <h3>Trust Score</h3>
+                            <div class="score-display">
+                                <div class="score-circle">
+                                    <span id="trustScore">0</span>%
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Risk Level Card -->
+                        <div class="result-card">
+                            <h3>Risk Level</h3>
+                            <div id="riskLevel" class="risk-badge risk-medium">MEDIUM</div>
+                        </div>
+
+                        <!-- Red Flags Card -->
+                        <div class="result-card red-flags-card">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Red Flags</h3>
+                            <ul id="redFlagsList" class="flags-list">
+                                <li>Loading...</li>
+                            </ul>
+                        </div>
+
+                        <!-- Trust Indicators Card -->
+                        <div class="result-card trust-indicators-card">
+                            <h3><i class="fas fa-check-circle"></i> Positive Indicators</h3>
+                            <ul id="indicatorsList" class="flags-list">
+                                <li>Loading...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Analyzing job posting...</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 JobShield All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

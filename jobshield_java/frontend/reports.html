@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - JobShield</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        .fake {
+            color: red;
+            font-weight: bold;
+        }
+
+        .safe {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h2>JobShield</h2>
+
+    </div>
+
+    <div class="container">
+
+        <h2>Job Scan Reports</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Job URL</th>
+                    <th>Result</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="reportsTable">
+
+            </tbody>
+
+            <tbody>
+
+
+                <tr>
+                    <td>https://fake-job-offer.com</td>
+                    <td class="fake">Fake</td>
+                    <td>30 March 2026</td>
+                </tr>
+
+                <tr>
+                    <td>https://careers.google.com</td>
+                    <td class="safe">Safe</td>
+                    <td>29 March 2026</td>
+                </tr>
+
+                <tr>
+                    <td>https://job-alert-now.com</td>
+                    <td class="fake">Fake</td>
+                    <td>28 March 2026</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+    <script>
+
+        async function loadReports() {
+
+            const response = await fetch("http://127.0.0.1:5000/get-reports");
+
+            const data = await response.json();
+
+            let table = document.getElementById("reportsTable");
+
+            table.innerHTML = "";
+
+            data.forEach(report => {
+
+                table.innerHTML += `
+<tr>
+<td>${report.url}</td>
+<td class="${report.risk == 'HIGH' ? 'fake' : 'safe'}">${report.risk}</td>
+<td>${report.date}</td>
+</tr>
+`;
+            });
+        }
+        loadReports();
+    </script>
+</body>
+</html>
